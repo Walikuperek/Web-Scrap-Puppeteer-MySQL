@@ -13,19 +13,15 @@ Scrap web page(tattoo shop) for products informations and INSERT them into the M
 # STRUCTURE OF DB
 
  *  __DB: inventory
- * |___
- * |   |___TABLE: cartridges
- * |    |____________ID: INT(11) AI PRIMARY KEY
- * |    |__________Shop: STRING/TEXT
- * |    |__________Name: STRING/TEXT
- * |    |________ImgSrc: STRING/TEXT
- * |    |___Description: STRING/TEXT
- * |    |____PriceNetto: STRING/TEXT
- * |    |___PriceBrutto: STRING/TEXT
- * |    |__________Link: STRING/TEXT
- * |
- * |___
- *     |___ANOTHER TABLE
+ * |___TABLE: cartridges
+ * |_____________ID: INT(11) AI PRIMARY KEY
+ * |___________Shop: STRING/TEXT
+ * |___________Name: STRING/TEXT
+ * |_________ImgSrc: STRING/TEXT
+ * |____Description: STRING/TEXT
+ * |_____PriceNetto: STRING/TEXT
+ * |____PriceBrutto: STRING/TEXT
+ * |___________Link: STRING/TEXT
 
 # Example row from Database
 
