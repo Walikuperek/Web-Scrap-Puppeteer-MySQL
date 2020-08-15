@@ -14,7 +14,7 @@ Scrap web page(tattoo shop) for products informations and INSERT them into the M
 
  *  __DB: inventory
  * |___TABLE: cartridges
- * |_____________ID: INT(11) AI PRIMARY KEY
+ * |______________ID: INT(11) AI PRIMARY KEY
  * |___________Shop: STRING/TEXT
  * |___________Name: STRING/TEXT
  * |_________ImgSrc: STRING/TEXT
