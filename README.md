@@ -2,7 +2,7 @@
 Scrap web page(tattoo shop) for products informations and INSERT them into the MySQL database.
 
 # index.ts functions
-  *     setConsoleTimerTick()           // Tics once per sec
+  *     setConsoleTimerTick()           // Tics once per sec, util for showing that app is working during asyn operations
   *     fillDatabase()                  // Fills database with scrapped informations, uses Cartridge class
   *     removeAllRecordsFromDatabase()  // Removes all records from database
   *     queryAll()                      // SQL query for all records in database
