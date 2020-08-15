@@ -2,10 +2,10 @@
 Scrap web page(tattoo shop) for products informations and INSERT them into the MySQL database.
 
 # index.js functions
-  setConsoleTimerTick()           // Tics once per sec
-  fillDatabase()                  // Fills database with scrapped informations, uses Cartridge class
-  removeAllRecordsFromDatabase()  // Removes all records from database
-  queryAll()                      // SQL query for all records in database
+  * setConsoleTimerTick()           // Tics once per sec
+  * fillDatabase()                  // Fills database with scrapped informations, uses Cartridge class
+  * removeAllRecordsFromDatabase()  // Removes all records from database
+  * queryAll()                      // SQL query for all records in database
 
 # cartridge.js
   class Cartridge which open one Google Chrome via Puppeteer and scrap informations about product and inserts them into the database
