@@ -10,7 +10,7 @@ Scrap web page(tattoo shop) for products informations and INSERT them into the M
 # cartridge.js
   class Cartridge which open one Google Chrome via Puppeteer and scrap informations about product and inserts them into the database
 
-# STRUCTURE OF DB
+# Structure of database
 
  *  __DB: inventory
  * |___TABLE: cartridges
