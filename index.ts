@@ -11,25 +11,6 @@ export const db = mysql.createConnection({
     database: 'inventory'
 });
 
-/**
- * @template STRUCTURE OF DB
- *
- * |__DB: inventory
- * |___
- * |   |___TABLE: cartridges
- * |    |____________ID: INT(11) AI PRIMARY KEY
- * |    |__________Shop: STRING/TEXT
- * |    |__________Name: STRING/TEXT
- * |    |________ImgSrc: STRING/TEXT
- * |    |___Description: STRING/TEXT
- * |    |____PriceNetto: STRING/TEXT
- * |    |___PriceBrutto: STRING/TEXT
- * |    |__________Link: STRING/TEXT
- * |
- * |___
- *     |___ANOTHER TABLE
- */
-
 const CARTRIDGES_URLS_I = [
     'https://www.kwadron.pl/pl/kwadron-cartridge-system-025mm-rl-round-liner-1szt.html',
     'https://www.kwadron.pl/pl/kwadron-cartridge-system-025mm-rs-round-shader-1szt.html',
