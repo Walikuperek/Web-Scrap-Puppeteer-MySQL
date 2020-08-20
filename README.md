@@ -25,7 +25,7 @@ Scrap web page(tattoo shop) for products informations and INSERT them into the M
 
 # Example row from Database
 
-**     TextRow
+*     TextRow
       { ID: 150,
        Shop: 'KWADRON',
        Name: 'KWADRON Cartridge System 0.35mm FL - Flat - 1szt',
