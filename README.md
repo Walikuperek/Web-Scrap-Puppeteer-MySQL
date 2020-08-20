@@ -11,17 +11,18 @@ Scrap web page(tattoo shop) for products informations and INSERT them into the M
   class Cartridge which open one Google Chrome via Puppeteer and scrap informations about product and inserts them into the database
 
 # Structure of database
-
- *  __DB: inventory
- * |___TABLE: cartridges
- * |______________ID: INT(11) AI PRIMARY KEY
- * |___________Shop: STRING/TEXT
- * |___________Name: STRING/TEXT
- * |_________ImgSrc: STRING/TEXT
- * |____Description: STRING/TEXT
- * |_____PriceNetto: STRING/TEXT
- * |____PriceBrutto: STRING/TEXT
- * |___________Link: STRING/TEXT
+```
+__DB: inventory
+|___TABLE: cartridges
+|______________ID: INT(11) AI PRIMARY KEY
+|___________Shop: STRING/TEXT
+|___________Name: STRING/TEXT
+|_________ImgSrc: STRING/TEXT
+|____Description: STRING/TEXT
+|_____PriceNetto: STRING/TEXT
+|____PriceBrutto: STRING/TEXT
+|___________Link: STRING/TEXT
+```
 
 # Example row from Database
 ```
