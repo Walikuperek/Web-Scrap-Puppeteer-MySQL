@@ -25,7 +25,8 @@ Scrap web page(tattoo shop) for products informations and INSERT them into the M
 
 # Example row from Database
 ```
-TextRow { 
+TextRow
+{ 
  ID: 150,
  Shop: 'KWADRON',
  Name: 'KWADRON Cartridge System 0.35mm FL - Flat - 1szt',
@@ -33,5 +34,6 @@ TextRow {
  Description: 'Najwyższej jakości cartridge KWADRON o średnicy 0.35mm FL Flat. Cartridge dedykowane do cieniowania i wypełnień, idealne do dużych, szerokich powierzchni, szczególnie do geometrycznych form. Igły w tych cartridgach ułożone są w jednym rzędzie.',
  PriceNetto: '5,40 zł',
  PriceBrutto: '6,64 zł',
- Link: 'https://www.kwadron.pl/pl/kwadron-cartridge-system-035mm-fl-flat-1szt.html' }
+ Link: 'https://www.kwadron.pl/pl/kwadron-cartridge-system-035mm-fl-flat-1szt.html'
+}
 ```
