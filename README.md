@@ -24,8 +24,8 @@ Scrap web page(tattoo shop) for products informations and INSERT them into the M
  * |___________Link: STRING/TEXT
 
 # Example row from Database
-
-*     TextRow
+```
+TextRow
       { ID: 150,
        Shop: 'KWADRON',
        Name: 'KWADRON Cartridge System 0.35mm FL - Flat - 1szt',
@@ -34,3 +34,4 @@ Scrap web page(tattoo shop) for products informations and INSERT them into the M
        PriceNetto: '5,40 zł',
        PriceBrutto: '6,64 zł',
        Link: 'https://www.kwadron.pl/pl/kwadron-cartridge-system-035mm-fl-flat-1szt.html' }
+```
