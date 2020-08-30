@@ -16,6 +16,8 @@ __DB: inventory
 |___TABLE: cartridges
 |______________ID: INT(11) AI PRIMARY KEY
 |___________Shop: STRING/TEXT
+|___________Type: STRING/TEXT
+|________SubType: STRING/TEXT
 |___________Name: STRING/TEXT
 |_________ImgSrc: STRING/TEXT
 |____Description: STRING/TEXT
@@ -30,6 +32,8 @@ TextRow
 { 
  ID: 150,
  Shop: 'KWADRON',
+ Type: 'Igły CARTRIDGE',
+ SubType: 'KWADRON Cartridge',
  Name: 'KWADRON Cartridge System 0.35mm FL - Flat - 1szt',
  ImgSrc: 'https://www.kwadron.pl/6635-large_default/kwadron-cartridge-system-035mm-fl-flat-1szt.jpg',
  Description: 'Najwyższej jakości cartridge KWADRON o średnicy 0.35mm FL Flat. Cartridge dedykowane do cieniowania i wypełnień, idealne do dużych, szerokich powierzchni, szczególnie do geometrycznych form. Igły w tych cartridgach ułożone są w jednym rzędzie.',
