@@ -2,14 +2,16 @@ import { db } from './db.config';
 const puppeteer = require('puppeteer-core');
 
 
-export default class Cartridge {
+export default class Item {
     constructor(url: string) {
-        this.kwadronScrapCartridge(url);
+        this.kwadronScrapItem(url);
     }
 
-    async kwadronScrapCartridge(url: string) {
+    async kwadronScrapItem(url: string) {
         try {
             if (url === undefined || url === '') return;
+
+            /* settings */
 
             const browser = await puppeteer.launch({
                 'product': 'chrome',
@@ -17,8 +19,47 @@ export default class Cartridge {
             });
             const page = await browser.newPage();
             await page.goto(url);
+            // ...............................................................................................
 
-            // h1
+            /* type */
+
+            //                            XPath
+            let [elType] = await page.$x('//*[@id="header"]/div[5]/div/div/span[3]/span[3]/a/span');
+            if (elType === undefined) {
+                //                        full XPath
+                [elType] = await page.$x('/html/body/div[1]/div[1]/header/div[5]/div/div/span[3]/span[3]/a/span');
+                console.log({ elType: elType });
+            }
+
+            let textType = '';
+            if (elType === undefined) {
+                textType = '-';
+            } else {
+                const textDescribe = await elType.getProperty('textContent');
+                textType = await textDescribe.jsonValue();
+            }
+            // ...............................................................................................
+
+            /* subType */
+            //                            XPath
+            let [elSubType] = await page.$x('//*[@id="header"]/div[5]/div/div/span[3]/span[5]/a/span');
+            if (elSubType === undefined) {
+                //                        full XPath
+                [elSubType] = await page.$x('/html/body/div[1]/div[1]/header/div[5]/div/div/span[3]/span[5]/a/span');
+                console.log({ elSubType: elSubType });
+            }
+
+            let textSubType = '';
+            if (elSubType === undefined) {
+                textSubType = '';
+            } else {
+                const textDescribe = await elSubType.getProperty('textContent');
+                textSubType = await textDescribe.jsonValue();
+            }
+            // ...............................................................................................
+            
+            /* h1 */
+
             let [elHeader] = await page.$x('/html/body/div[1]/div[2]/div/div/div/div[1]/div/div[1]/div[2]/h1');
             if (elHeader === undefined) {
                 [elHeader] = await page.$x('/html/body/div[2]/div[2]/div/div/div/div[1]/div/div[1]/div[2]/h1');
@@ -32,8 +73,10 @@ export default class Cartridge {
                 const header = await elHeader.getProperty('textContent');
                 textHeader = await header.jsonValue();
             }
+            // ...............................................................................................
 
-            // img
+            /* img */
+
             let [elImg] = await page.$x('/html/body/div[2]/div[2]/div/div/div/div[1]/div/div[1]/div[1]/div/div[1]/span/img');
             if (elImg === undefined) {
                 console.log({ elImg: elImg });
@@ -47,8 +90,10 @@ export default class Cartridge {
                 const src = await elImg.getProperty('src');
                 srcImg = await src.jsonValue();
             }
+            // ...............................................................................................
 
-            // description
+            /* description */
+
             let [elTextDescribe] = await page.$x('/html/body/div[2]/div[2]/div/div/div/div[1]/div/div[1]/div[2]/form/div/div[1]/div/p');
 
             if (elTextDescribe === undefined) {
@@ -67,8 +112,10 @@ export default class Cartridge {
                 const textDescribe = await elTextDescribe.getProperty('textContent');
                 text = await textDescribe.jsonValue();
             }
+            // ...............................................................................................
 
-            // netto
+            /* netto */
+
             let [elPriceNetto] = await page.$x('//*[@id="buy_block"]/div/div[3]/div[1]/div/p[1]/span[2]/span');
             // 
             
@@ -85,9 +132,10 @@ export default class Cartridge {
                 const textDescribe = await elPriceNetto.getProperty('textContent');
                 textPriceNetto = await textDescribe.jsonValue();
             }
+            // ...............................................................................................
 
+            /* brutto */
 
-            // brutto
             let [elPriceBrutto] = await page.$x('/html/body/div[2]/div[2]/div/div/div/div[1]/div/div[1]/div[2]/form/div/div[3]/div[1]/div/p[1]/span[1]');
             if (elPriceBrutto === undefined) {
                 console.log({ elPriceBrutto: elPriceBrutto });
@@ -101,12 +149,17 @@ export default class Cartridge {
                 const price = await elPriceBrutto.getProperty('textContent');
                 textPriceBrutto = await price.jsonValue();
             }
+            // ...............................................................................................
 
-            console.log(`'${textHeader}', '${srcImg}', '${text}', '${textPriceNetto}', '${textPriceBrutto}', '${url}'`);
+            /* check */
+            console.log(`'${textType}', '${textSubType}', '${textHeader}', '${srcImg}', '${text}', '${textPriceNetto}', '${textPriceBrutto}', '${url}'`);
+            // ...............................................................................................
+
+            /* database query for INSERT data INTO cartridges */
 
             db.query(
-                `INSERT INTO cartridges (ID, Shop, Name, ImgSrc, Description, PriceNetto, PriceBrutto, Link) 
-            VALUES (null, 'KWADRON', '${textHeader}', '${srcImg}', '${text}', '${textPriceNetto}', '${textPriceBrutto}', '${url}')`,
+                `INSERT INTO items (ID, Shop, Type, SubType, Name, ImgSrc, Description, PriceNetto, PriceBrutto, Link) 
+            VALUES (null, 'KWADRON', '${textType}', '${textSubType}', '${textHeader}', '${srcImg}', '${text}', '${textPriceNetto}', '${textPriceBrutto}', '${url}')`,
                 (err, results, fields) => {
                     if (err) {
                         console.log(`
@@ -122,6 +175,7 @@ export default class Cartridge {
                     console.log({ results });
                 }
             );
+            // ...............................................................................................
 
             browser.close();
         }
@@ -132,7 +186,7 @@ export default class Cartridge {
             * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n
             `);
             console.log({ url: url });
-            console.log(error);
+            console.log({ error: error });
         }
     }
 }
