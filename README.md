@@ -38,3 +38,13 @@ TextRow
  Link: 'https://www.kwadron.pl/pl/kwadron-cartridge-system-035mm-fl-flat-1szt.html'
 }
 ```
+
+## Project setup
+```
+npm install
+```
+
+## Project run
+```
+tsc db.config.ts && tsc kwadron - url.ts && tsc cartridge.ts && tsc index.ts && node index.js
+```
