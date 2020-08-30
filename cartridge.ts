@@ -1,4 +1,4 @@
-import { db } from './index';
+import { db } from './db.config';
 const puppeteer = require('puppeteer-core');
 
 
@@ -18,31 +18,107 @@ export default class Cartridge {
             const page = await browser.newPage();
             await page.goto(url);
 
-            const [elHeader] = await page.$x('//*[@id="center_column"]/div/div[1]/div[2]/h1');
-            const header = await elHeader.getProperty('textContent');
-            const textHeader = await header.jsonValue();
+            // h1
+            let [elHeader] = await page.$x('/html/body/div[1]/div[2]/div/div/div/div[1]/div/div[1]/div[2]/h1');
+            if (elHeader === undefined) {
+                [elHeader] = await page.$x('/html/body/div[2]/div[2]/div/div/div/div[1]/div/div[1]/div[2]/h1');
+                console.log({ elHeader: elHeader });
+            }
 
-            const [elImg] = await page.$x('/html/body/div[2]/div[2]/div/div/div/div[1]/div/div[1]/div[1]/div/div[1]/span/img');
-            const src = await elImg.getProperty('src');
-            const srcImg = await src.jsonValue();
+            let textHeader = '';
+            if (elHeader === undefined) {
+                textHeader = 'brak';
+            } else {
+                const header = await elHeader.getProperty('textContent');
+                textHeader = await header.jsonValue();
+            }
 
-            const [elTextDescribe] = await page.$x('//*[@id="short_description_content"]/p');
-            const textDescribe = await elTextDescribe.getProperty('textContent');
-            const text = await textDescribe.jsonValue();
+            // img
+            let [elImg] = await page.$x('/html/body/div[2]/div[2]/div/div/div/div[1]/div/div[1]/div[1]/div/div[1]/span/img');
+            if (elImg === undefined) {
+                console.log({ elImg: elImg });
+                [elImg] = await page.$x('/html/body/div[1]/div[2]/div/div/div/div[1]/div/div[1]/div[1]/div/div[1]/span/img');
+            }
+          
+            let srcImg = '';
+            if (elImg === undefined) {
+                srcImg = '-';
+            } else {
+                const src = await elImg.getProperty('src');
+                srcImg = await src.jsonValue();
+            }
 
-            const [elPriceNetto] = await page.$x('//*[@id="buy_block"]/div/div[3]/div[2]/div/p[1]/span[2]/span');
-            const priceNetto = await elPriceNetto.getProperty('textContent');
-            const textPriceNetto = await priceNetto.jsonValue();
+            // description
+            let [elTextDescribe] = await page.$x('/html/body/div[2]/div[2]/div/div/div/div[1]/div/div[1]/div[2]/form/div/div[1]/div/p');
 
-            const [elPrice] = await page.$x('//*[@id="our_price_display"]');
-            const price = await elPrice.getProperty('textContent');
-            const textPriceBrutto = await price.jsonValue();
+            if (elTextDescribe === undefined) {
+                console.log({ elTextDescribe: elTextDescribe });
+                [elTextDescribe] = await page.$x('/html/body/div[1]/div[2]/div/div/div/div[1]/div/div[1]/div[2]/form/div/div[1]/div/div/div/div/div/p[1]');
+            }
+            if (elTextDescribe === undefined) {
+                console.log({ elTextDescribe: elTextDescribe });
+                [elTextDescribe] = await page.$x('//*[@id="short_description_content"]/p');
+            }
+            
+            let text = '';
+            if (elTextDescribe === undefined) {
+                text = '-';
+            } else {
+                const textDescribe = await elTextDescribe.getProperty('textContent');
+                text = await textDescribe.jsonValue();
+            }
+
+            // netto
+            let [elPriceNetto] = await page.$x('//*[@id="buy_block"]/div/div[3]/div[1]/div/p[1]/span[2]/span');
+            // 
+            
+            if (elPriceNetto === undefined) {
+                console.log({ elPriceNetto: elPriceNetto });
+                [elPriceNetto] = await page.$x('/html/body/div[1]/div[2]/div/div/div/div[1]/div/div[1]/div[2]/form/div/div[3]/div[2]/div/p[1]/span[2]/span');
+            }
+            
+
+            let textPriceNetto = '';
+            if (elPriceNetto === undefined) {
+                textPriceNetto = '-';
+            } else {
+                const textDescribe = await elPriceNetto.getProperty('textContent');
+                textPriceNetto = await textDescribe.jsonValue();
+            }
+
+
+            // brutto
+            let [elPriceBrutto] = await page.$x('/html/body/div[2]/div[2]/div/div/div/div[1]/div/div[1]/div[2]/form/div/div[3]/div[1]/div/p[1]/span[1]');
+            if (elPriceBrutto === undefined) {
+                console.log({ elPriceBrutto: elPriceBrutto });
+                [elPriceBrutto] = await page.$x('//*[@id="our_price_display"]');
+            }
+
+            let textPriceBrutto = '';
+            if (elPriceBrutto === undefined) {
+                textPriceBrutto = '-';
+            } else  {
+                const price = await elPriceBrutto.getProperty('textContent');
+                textPriceBrutto = await price.jsonValue();
+            }
+
+            console.log(`'${textHeader}', '${srcImg}', '${text}', '${textPriceNetto}', '${textPriceBrutto}', '${url}'`);
 
             db.query(
                 `INSERT INTO cartridges (ID, Shop, Name, ImgSrc, Description, PriceNetto, PriceBrutto, Link) 
             VALUES (null, 'KWADRON', '${textHeader}', '${srcImg}', '${text}', '${textPriceNetto}', '${textPriceBrutto}', '${url}')`,
                 (err, results, fields) => {
-                    if (err) throw err;
+                    if (err) {
+                        console.log(`
+                        * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n
+                        ERROR
+                        * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n
+                        `);
+                        console.log({ err });
+                        console.log({ url: url });
+                        console.log({ fields });
+                        // throw err;
+                    }
                     console.log({ results });
                 }
             );
@@ -50,6 +126,12 @@ export default class Cartridge {
             browser.close();
         }
         catch (error) {
+            console.log(`
+            * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n
+            ERROR
+            * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * \n
+            `);
+            console.log({ url: url });
             console.log(error);
         }
     }
